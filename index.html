@@ -154,7 +154,10 @@
     </a>
 
 
-    <script>
+    <script type="module">
+
+        import {SUPABASE_URL, SUPABASE_ANON_KEY} from './env.js';
+
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();  // Evita que el formulario se envíe por defecto
 
@@ -177,11 +180,13 @@
                 email: email,
                 message: message
             };
-
+       
             // Enviar datos por correo usando FormSubmit (servicio sin backend)
-            fetch('https://formsubmit.co/victor.quiroga@dreyesyasociados.com', {
+            fetch( `${SUPABASE_URL}/functions/v1/smart-service`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                 },
                 body: JSON.stringify(formData)
             })
             .then(response => {
